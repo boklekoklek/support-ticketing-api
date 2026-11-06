@@ -12,6 +12,12 @@ public class TicketsController : ControllerBase
         new Ticket { Id = 2, Title = "Slow response on orders API", Status = "In Progress" }   
     ];
 
-    [HttpGet]
-    public ActionResult<IEnumerable<Ticket>> GetAll() => Ok(Tickets);
+    [HttpGet("{id}")]
+    public ActionResult<Ticket> GetById(int id)
+    {
+        var ticket = Tickets.FirstOrDefault(t => t.Id == id);
+        if (ticket == null)
+            return NotFound();
+        return Ok(ticket);
+    }
 }   

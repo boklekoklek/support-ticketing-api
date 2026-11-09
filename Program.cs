@@ -1,5 +1,10 @@
+using HelloApi.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlite("Data Source=tickets.db"));
 // Add services to the container.
 
 builder.Services.AddControllers();

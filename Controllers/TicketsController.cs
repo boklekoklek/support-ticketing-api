@@ -16,9 +16,16 @@ public class TicketsController : ControllerBase
         _db = db;
     }
 
-    [HttpGet]
-    public async Task<ActionResult<IEnumerable<Ticket>>> GetAll()
-        => Ok(await _db.Tickets.ToListAsync());
+   [HttpGet]
+public async Task<ActionResult<IEnumerable<Ticket>>> GetAll(string? status)
+{
+    var query = _db.Tickets.AsQueryable();
+
+    if (!string.IsNullOrWhiteSpace(status))
+        query = query.Where(t => t.Status.ToLower() == status.ToLower());
+
+    return Ok(await query.ToListAsync());
+}
 
     [HttpGet("{id}")]
     public async Task<ActionResult<Ticket>> GetById(int id)
